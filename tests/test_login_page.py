@@ -1,8 +1,6 @@
 import time
 
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 
@@ -10,15 +8,8 @@ class TestPositiveScenarios:
 
     @pytest.mark.login
     @pytest.mark.positive
-    def test_positive_login(self):
+    def test_positive_login(self, driver):
         # Open browser
-        # driver = webdriver.Chrome()
-        chrome_options = Options()
-        chrome_options.add_argument("--disable-search-engine-choice-screen")
-        driver = webdriver.Chrome(options=chrome_options)
-        time.sleep(3)
-
-        # Navigate to webpage
         driver.get("https://practicetestautomation.com/practice-test-login/")
         time.sleep(3)
 
