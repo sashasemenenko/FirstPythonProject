@@ -2,8 +2,8 @@ import time
 
 import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class TestExceptions:
@@ -17,14 +17,12 @@ class TestExceptions:
         add_button_locator.click()
 
         wait = WebDriverWait(driver, 10)
-        row2_input_element= wait.until(ec.presence_of_element_located((By.XPATH, "//div[@id='row2']/input")))
+        row2_input_element = wait.until(ec.presence_of_element_located((By.XPATH, "//div[@id='row2']/input")))
 
         # Verify Row 2 input field is displayed
         assert row2_input_element.is_displayed(), "Row 2 input should be displayed, but it's not"
 
-
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_element_not_interactable_exception(self, driver):
         # Open browser
         driver.get("https://practicetestautomation.com/practice-test-exceptions/")
@@ -50,7 +48,6 @@ class TestExceptions:
         assert confirmation_message == "Row 2 was saved", "Confirmation massage is not expected"
 
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_invalid_element_state_exception(self, driver):
         # Open browser
         driver.get("https://practicetestautomation.com/practice-test-exceptions/")
@@ -76,3 +73,17 @@ class TestExceptions:
         confirmation_message = confirmation_element.text
         assert confirmation_message == "Row 1 was saved", "Confirmation massage is not expected"
 
+    @pytest.mark.exceptions
+    @pytest.mark.debug
+    def test_stale_element_reference_exception(self, driver):
+        # Open browser
+        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
+
+        # Push add button
+        add_button_locator = driver.find_element(By.ID, "add_btn")
+        add_button_locator.click()
+
+        # Verify instruction text element is no longer displayed
+        wait = WebDriverWait(driver, 10)
+        assert wait.until(ec.invisibility_of_element_located(
+            (By.ID, "instructions")), "Instructions text element should not be displayed")
